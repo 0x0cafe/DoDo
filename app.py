@@ -33,6 +33,7 @@ def automl():
 
 @app.route('/alogrithms')
 def alogrithms():
+    #看看你的
     return render_template('alogrithms.html')
 
 
