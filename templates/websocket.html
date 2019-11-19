@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>串口控制视频</title>
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/socket.io/1.5.1/socket.io.min.js"></script>
+    <!-- ECharts 3 引入 -->
+    <script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+</head>
+ 
+<body>
+ 
+
+    <div>
+        <h2 id="t">xxx</h2>
+        <h2 id="t1">xxxxx</h2>
+    </div>
+ 
+    <script type="text/javascript">
+        var update_video = function (res) {
+            $("#t").text(res.data[0]);
+            $("#t1").text(res.data[1]);
+        }
+ 
+        // 建立socket连接，等待服务器“推送”数据
+        $(document).ready(function() {
+            namespace = '/test';
+            var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+
+            socket.on('server_response', function(res) {
+                console.log(res);
+                update_video(res);
+
+            });
+ 
+        });
+    </script>
+</body>
+</html>

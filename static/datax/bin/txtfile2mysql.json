@@ -1,0 +1,37 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "txtfilereader",
+                    "parameter": {
+                        "column": ["*"],
+                        "encoding": "UTF-8",
+                        "fieldDelimiter": ",",
+                        "path": ["datasets.csv"],
+                    }
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "column": ["*"],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://192.168.1.148:3306/sjt?serverTimezone=UTC",
+                                "table": ["dataset"]
+                            }
+                        ],
+                        "password": "BKmLaZApbCzf6R37",
+                        "username": "sjt",
+                        "writeMode": "insert"
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        }
+    }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据导入</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layui/css/admin.css" media="all">
+
+    <link rel="shortcut icon" href="/static/layui/images/favicon.ico"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body style="background-color: #fff; ">
+
+<div class="layui-fluid">
+    <div class="layui-col-md12">
+        <div class="layui-row layui-col-space15">
+
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                    <div class="layui-card-body">
+
+                        <form class="layui-form layui-form-pane" action="/postDataX/" method="post">
+
+                            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                                <legend>自动机器学习</legend>
+                            </fieldset>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">数据地址</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="jdbcUrl" lay-verify="required" placeholder="jdbc:"
+                                           autocomplete="on" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">数据库连接</label>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">表名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="table" lay-verify="required" autocomplete="on"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">用户名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="username" lay-verify="required" autocomplete="on"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="password" name="password" lay-verify="required" autocomplete="on"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">查询方式</label>
+                                <div class="layui-input-block">
+                                    <input lay-filter="sql_change" type="radio" name="is_sql" value="1" title="SQL语句查询">
+                                    <input lay-filter="sql_change" type="radio" name="is_sql" value="0"
+                                           title="条件配置查询（根据指定的 列名集合、表名、筛选条件 自动拼接SQL）" checked>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">列名集合</label>
+                                <div class="layui-input-block">
+                                    <input id="column" type="text" name="column" lay-verify="required"
+                                           lay-filter="is_sql"
+                                           placeholder="e.g. id, password, username (列名之间请用英文逗号隔开)"
+                                           autocomplete="on" class="layui-input">
+                                    <div class="layui-form-mid layui-word-aux">（必填）使用*代表默认使用所有列配置; 支持列裁剪、列换序</div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">筛选条件</label>
+                                <div class="layui-input-block">
+                                    <input id="where" type="text" name="where" lay-filter="is_sql"
+                                           placeholder="e.g. age > 20 "
+                                           autocomplete="on" class="layui-input">
+                                    <div class="layui-form-mid layui-word-aux">（选填）SQL的合法where子句</div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">SQL语句</label>
+                                <div class="layui-input-block">
+                                    <input id="querySql" type="text" name="querySql" lay-filter="is_sql"
+                                           placeholder="e.g. select db_id,on_line_flag from db_info where db_id < 10;"
+                                           autocomplete="on" class="layui-input layui-disabled">
+                                    <div class="layui-form-mid layui-word-aux">（必填）自定义SQL查询语句</div>
+                                    <div class="layui-form-mid layui-word-aux ">填写此项后，系统会自动忽略 列名集合、表名、筛选条件</div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button type="submit" class="layui-btn" lay-submit lay-filter="submit">立即提交</button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">运行情况统计</label>
+                                <div class="layui-input-block">
+                                    <textarea name="job_info" placeholder="请勿编辑" class="layui-textarea"
+                                              disabled>{{ job_info }}</textarea>
+                                </div>
+                            </div>
+
+                        </form>
+                        <button class="layui-btn layui-btn-danger">清空缓存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //监听提交
+        //form.on('submit(submit)', function (data) {
+        //console.log(data.field);
+
+        // return false;
+        // });
+
+        //监听单选框
+        form.on('radio(sql_change)', function (data) {
+            //console.log(data.value); //被点击的radio的value值
+            if (data.value == 1) {
+                $("#column").attr("class", "layui-input layui-disabled");
+                $("#where").attr("class", "layui-input layui-disabled");
+                $("#querySql").attr("class", "layui-input");
+
+                $("#querySql").attr("lay-verify", "required");
+                $("#column").attr("lay-verify", "");
+
+                form.render(null, 'is_sql');
+            } else {
+                $("#column").attr("class", "layui-input");
+                $("#where").attr("class", "layui-input");
+                $("#querySql").attr("class", "layui-input layui-disabled");
+
+                $("#querySql").attr("lay-verify", "");
+                $("#column").attr("lay-verify", "required");
+                form.render(null, 'is_sql');
+            }
+        });
+
+        //监听清空缓存按钮
+        $(".layui-btn-danger").click(function () {
+            $.ajax({
+                url: "/deleteJson/",
+                async: false,
+                success: function () {
+                    layer.msg("自动生成的json文件已成功清空！");
+                },
+                error: function () {
+                    layer.alert("清空失败！");
+                }
+            });
+        })
+
+    });
+</script>
+</body>
+</html>

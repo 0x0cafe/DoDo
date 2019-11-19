@@ -1,0 +1,185 @@
+2019-11-04 17:31:59.819 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2019-11-04 17:31:59.823 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.181-b13
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	12
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2019-11-04 17:31:59.835 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"txtfilereader",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"columnCount":"33",
+					"encoding":"UTF-8",
+					"fieldDelimiter":",",
+					"path":[
+						"dataset.csv"
+					]
+				}
+			},
+			"writer":{
+				"name":"mysqlwriter",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"connection":[
+						{
+							"jdbcUrl":"jdbc:mysql://192.168.1.148:3306/sjt?serverTimezone=UTC",
+							"table":[
+								"dataset"
+							]
+						}
+					],
+					"password":"****************",
+					"username":"sjt",
+					"writeMode":"insert"
+				}
+			}
+		}
+	],
+	"setting":{
+		"speed":{
+			"channel":"3"
+		}
+	}
+}
+
+2019-11-04 17:31:59.845 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2019-11-04 17:31:59.847 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2019-11-04 17:31:59.847 [main] INFO  JobContainer - DataX jobContainer starts job.
+2019-11-04 17:31:59.848 [main] INFO  JobContainer - Set jobId = 0
+2019-11-04 17:32:00.028 [job-0] INFO  OriginalConfPretreatmentUtil - table:[dataset] all columns:[
+﻿CityId,Han,age,card_age,cashAmt_mean,cashAmt_non_null_months,cashCnt_mean,cashCnt_non_null_months,cashTotalAmt,cashTotalCnt,education,idVerify,inCourt,isBlackList,isCrime,isDue,maritalStatus,monthCardLargeAmt,netLength,noTransWeekPre,onlineTransAmt,onlineTransCnt,publicPayAmt,publicPayCnt,sex,threeVerify,transAmt_mean,transAmt_non_null_months,transCnt_mean,transCnt_non_null_months,transTotalAmt,transTotalCnt,Default
+].
+2019-11-04 17:32:00.029 [job-0] WARN  OriginalConfPretreatmentUtil - 您的配置文件中的列配置信息存在风险. 因为您配置的写入数据库表的列为*，当您的表字段个数、类型有变动时，可能影响任务正确性甚至会运行出错。请检查您的配置并作出修改.
+2019-11-04 17:32:00.031 [job-0] INFO  OriginalConfPretreatmentUtil - Write data [
+insert INTO %s (﻿CityId,Han,age,card_age,cashAmt_mean,cashAmt_non_null_months,cashCnt_mean,cashCnt_non_null_months,cashTotalAmt,cashTotalCnt,education,idVerify,inCourt,isBlackList,isCrime,isDue,maritalStatus,monthCardLargeAmt,netLength,noTransWeekPre,onlineTransAmt,onlineTransCnt,publicPayAmt,publicPayCnt,sex,threeVerify,transAmt_mean,transAmt_non_null_months,transCnt_mean,transCnt_non_null_months,transTotalAmt,transTotalCnt,Default) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+], which jdbcUrl like:[jdbc:mysql://192.168.1.148:3306/sjt?serverTimezone=UTC&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true]
+2019-11-04 17:32:00.031 [job-0] INFO  JobContainer - jobContainer starts to do prepare ...
+2019-11-04 17:32:00.032 [job-0] INFO  JobContainer - DataX Reader.Job [txtfilereader] do prepare work .
+2019-11-04 17:32:00.032 [job-0] INFO  TxtFileReader$Job - add file [dataset.csv] as a candidate to be read.
+2019-11-04 17:32:00.033 [job-0] INFO  TxtFileReader$Job - 您即将读取的文件数为: [1]
+2019-11-04 17:32:00.033 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] do prepare work .
+2019-11-04 17:32:00.033 [job-0] INFO  JobContainer - jobContainer starts to do split ...
+2019-11-04 17:32:00.034 [job-0] INFO  JobContainer - Job set Channel-Number to 3 channels.
+2019-11-04 17:32:00.034 [job-0] INFO  JobContainer - DataX Reader.Job [txtfilereader] splits to [1] tasks.
+2019-11-04 17:32:00.034 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] splits to [1] tasks.
+2019-11-04 17:32:00.045 [job-0] INFO  JobContainer - jobContainer starts to do schedule ...
+2019-11-04 17:32:00.047 [job-0] INFO  JobContainer - Scheduler starts [1] taskGroups.
+2019-11-04 17:32:00.049 [job-0] INFO  JobContainer - Running by standalone Mode.
+2019-11-04 17:32:00.055 [taskGroup-0] INFO  TaskGroupContainer - taskGroupId=[0] start [1] channels for [1] tasks.
+2019-11-04 17:32:00.059 [taskGroup-0] INFO  Channel - Channel set byte_speed_limit to -1, No bps activated.
+2019-11-04 17:32:00.059 [taskGroup-0] INFO  Channel - Channel set record_speed_limit to -1, No tps activated.
+2019-11-04 17:32:00.063 [taskGroup-0] INFO  TaskGroupContainer - taskGroup[0] taskId[0] attemptCount[1] is started
+2019-11-04 17:32:00.063 [0-0-0-reader] INFO  TxtFileReader$Task - reading file : [dataset.csv]
+2019-11-04 17:32:00.081 [0-0-0-writer] ERROR WriterRunner - Writer Runner Received Exceptions:
+com.alibaba.datax.common.exception.DataXException: Code:[DBUtilErrorCode-01], Description:[获取表字段相关信息失败.].  - 获取表:dataset 的字段的元信息时失败. 请联系 DBA 核查该库、表信息. - java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319)
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78)
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:33) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:575) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78) ~[mysqlwriter-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.17.jar:8.0.17]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.17.jar:8.0.17]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.17.jar:8.0.17]
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200) ~[mysql-connector-java-8.0.17.jar:8.0.17]
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	... 5 common frames omitted
+2019-11-04 17:32:00.092 [0-0-0-reader] INFO  UnstructuredStorageReaderUtil - CsvReader使用默认值[{"captureRawRecord":true,"columnCount":0,"comment":"#","currentRecord":-1,"delimiter":",","escapeMode":1,"headerCount":0,"rawRecord":"","recordDelimiter":"\u0000","safetySwitch":false,"skipEmptyRecords":true,"textQualifier":"\"","trimWhitespace":true,"useComments":false,"useTextQualifier":true,"values":[]}],csvReaderConfig值为[null]
+2019-11-04 17:32:10.062 [job-0] INFO  StandAloneJobContainerCommunicator - Total 512 records, 38496 bytes | Speed 3.76KB/s, 51 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.001s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2019-11-04 17:32:10.062 [job-0] ERROR JobContainer - 运行scheduler 模式[standalone]出错.
+2019-11-04 17:32:10.063 [job-0] ERROR JobContainer - Exception when job run
+com.alibaba.datax.common.exception.DataXException: Code:[DBUtilErrorCode-01], Description:[获取表字段相关信息失败.].  - 获取表:dataset 的字段的元信息时失败. 请联系 DBA 核查该库、表信息. - java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319)
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78)
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:33) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:575) ~[na:na]
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266) ~[na:na]
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319) ~[na:na]
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78) ~[na:na]
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[na:na]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[na:na]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[na:na]
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200) ~[na:na]
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563) ~[na:na]
+	... 5 common frames omitted
+2019-11-04 17:32:10.063 [job-0] INFO  StandAloneJobContainerCommunicator - Total 512 records, 38496 bytes | Speed 37.59KB/s, 512 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.001s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2019-11-04 17:32:10.064 [job-0] ERROR Engine - 
+
+经DataX智能分析,该任务最可能的错误原因是:
+com.alibaba.datax.common.exception.DataXException: Code:[DBUtilErrorCode-01], Description:[获取表字段相关信息失败.].  - 获取表:dataset 的字段的元信息时失败. 请联系 DBA 核查该库、表信息. - java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319)
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78)
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:33)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:575)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWriteWithConnection(CommonRdbmsWriter.java:266)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Task.startWrite(CommonRdbmsWriter.java:319)
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Task.startWrite(MysqlWriter.java:78)
+	at com.alibaba.datax.core.taskgroup.runner.WriterRunner.run(WriterRunner.java:56)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from dataset where 1=2' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getColumnMetaData(DBUtil.java:563)
+	... 5 more
+

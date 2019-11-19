@@ -1,0 +1,111 @@
+2019-11-04 17:31:24.123 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2019-11-04 17:31:24.127 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.181-b13
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	12
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2019-11-04 17:31:24.139 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"txtfilereader",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"columnCount":"33",
+					"encoding":"UTF-8",
+					"fieldDelimiter":",",
+					"path":[
+						"E:\\江苏省审计厅\\dataset.csv"
+					]
+				}
+			},
+			"writer":{
+				"name":"mysqlwriter",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"connection":[
+						{
+							"jdbcUrl":"jdbc:mysql://192.168.1.148:3306/sjt?serverTimezone=UTC",
+							"table":[
+								"dataset"
+							]
+						}
+					],
+					"password":"****************",
+					"username":"sjt",
+					"writeMode":"insert"
+				}
+			}
+		}
+	],
+	"setting":{
+		"speed":{
+			"channel":"3"
+		}
+	}
+}
+
+2019-11-04 17:31:24.150 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2019-11-04 17:31:24.151 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2019-11-04 17:31:24.152 [main] INFO  JobContainer - DataX jobContainer starts job.
+2019-11-04 17:31:24.152 [main] INFO  JobContainer - Set jobId = 0
+2019-11-04 17:31:24.336 [job-0] INFO  OriginalConfPretreatmentUtil - table:[dataset] all columns:[
+﻿CityId,Han,age,card_age,cashAmt_mean,cashAmt_non_null_months,cashCnt_mean,cashCnt_non_null_months,cashTotalAmt,cashTotalCnt,education,idVerify,inCourt,isBlackList,isCrime,isDue,maritalStatus,monthCardLargeAmt,netLength,noTransWeekPre,onlineTransAmt,onlineTransCnt,publicPayAmt,publicPayCnt,sex,threeVerify,transAmt_mean,transAmt_non_null_months,transCnt_mean,transCnt_non_null_months,transTotalAmt,transTotalCnt,Default
+].
+2019-11-04 17:31:24.336 [job-0] WARN  OriginalConfPretreatmentUtil - 您的配置文件中的列配置信息存在风险. 因为您配置的写入数据库表的列为*，当您的表字段个数、类型有变动时，可能影响任务正确性甚至会运行出错。请检查您的配置并作出修改.
+2019-11-04 17:31:24.338 [job-0] INFO  OriginalConfPretreatmentUtil - Write data [
+insert INTO %s (﻿CityId,Han,age,card_age,cashAmt_mean,cashAmt_non_null_months,cashCnt_mean,cashCnt_non_null_months,cashTotalAmt,cashTotalCnt,education,idVerify,inCourt,isBlackList,isCrime,isDue,maritalStatus,monthCardLargeAmt,netLength,noTransWeekPre,onlineTransAmt,onlineTransCnt,publicPayAmt,publicPayCnt,sex,threeVerify,transAmt_mean,transAmt_non_null_months,transCnt_mean,transCnt_non_null_months,transTotalAmt,transTotalCnt,Default) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+], which jdbcUrl like:[jdbc:mysql://192.168.1.148:3306/sjt?serverTimezone=UTC&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true]
+2019-11-04 17:31:24.339 [job-0] INFO  JobContainer - jobContainer starts to do prepare ...
+2019-11-04 17:31:24.339 [job-0] INFO  JobContainer - DataX Reader.Job [txtfilereader] do prepare work .
+2019-11-04 17:31:24.340 [job-0] ERROR TxtFileReader$Job - 您设定的目录不存在 : [E:\江苏省审计厅\dataset.csv]
+2019-11-04 17:31:24.343 [job-0] ERROR JobContainer - Exception when job run
+com.alibaba.datax.common.exception.DataXException: Code:[TxtFileReader-04], Description:[您配置的目录文件路径不存在.]. - 您设定的目录不存在 : [E:\江苏省审计厅\dataset.csv]
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.buildSourceTargetsEathPath(TxtFileReader.java:280) ~[txtfilereader-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.buildSourceTargets(TxtFileReader.java:264) ~[txtfilereader-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.prepare(TxtFileReader.java:197) ~[txtfilereader-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.prepareJobReader(JobContainer.java:715) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.prepare(JobContainer.java:308) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:115) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.start(Engine.java:92) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.main(Engine.java:204) [datax-core-0.0.1-SNAPSHOT.jar:na]
+2019-11-04 17:31:24.346 [job-0] INFO  StandAloneJobContainerCommunicator - Total 0 records, 0 bytes | Speed 0B/s, 0 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2019-11-04 17:31:24.348 [job-0] ERROR Engine - 
+
+经DataX智能分析,该任务最可能的错误原因是:
+com.alibaba.datax.common.exception.DataXException: Code:[TxtFileReader-04], Description:[您配置的目录文件路径不存在.]. - 您设定的目录不存在 : [E:\江苏省审计厅\dataset.csv]
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26)
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.buildSourceTargetsEathPath(TxtFileReader.java:280)
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.buildSourceTargets(TxtFileReader.java:264)
+	at com.alibaba.datax.plugin.reader.txtfilereader.TxtFileReader$Job.prepare(TxtFileReader.java:197)
+	at com.alibaba.datax.core.job.JobContainer.prepareJobReader(JobContainer.java:715)
+	at com.alibaba.datax.core.job.JobContainer.prepare(JobContainer.java:308)
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:115)
+	at com.alibaba.datax.core.Engine.start(Engine.java:92)
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171)
+	at com.alibaba.datax.core.Engine.main(Engine.java:204)
+

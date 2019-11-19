@@ -1,0 +1,105 @@
+2019-10-18 16:33:42.540 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2019-10-18 16:33:42.545 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.221-b11
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	6
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2019-10-18 16:33:42.579 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"mysqlreader",
+				"parameter":{
+					"column":[
+						"id",
+						" password",
+						" username"
+					],
+					"connection":[
+						{
+							"jdbcUrl":[
+								"jdbc:mysql://localhost:3306/demo?serverTimezone=UTC"
+							],
+							"querySql":[
+								""
+							],
+							"table":[
+								"user"
+							]
+						}
+					],
+					"password":"****",
+					"username":"root",
+					"where":""
+				}
+			},
+			"writer":{
+				"name":"streamwriter",
+				"parameter":{
+					"encoding":"UTF-8",
+					"print":true
+				}
+			}
+		}
+	],
+	"setting":{
+		"speed":{
+			"channel":"3"
+		}
+	}
+}
+
+2019-10-18 16:33:42.590 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2019-10-18 16:33:42.591 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2019-10-18 16:33:42.591 [main] INFO  JobContainer - DataX jobContainer starts job.
+2019-10-18 16:33:42.592 [main] INFO  JobContainer - Set jobId = 0
+2019-10-18 16:33:42.608 [job-0] ERROR JobContainer - Exception when job run
+com.alibaba.datax.common.exception.DataXException: Code:[DBUtilErrorCode-08], Description:[您配置凌乱了. 不能同时既配置table又配置querySql].  - 您的配置凌乱了. 因为datax不能同时既配置table又配置querySql.请检查您的配置并作出修改.
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.recognizeTableOrQuerySqlMode(OriginalConfPretreatmentUtil.java:257) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.simplifyConf(OriginalConfPretreatmentUtil.java:56) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.doPretreatment(OriginalConfPretreatmentUtil.java:33) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.reader.CommonRdbmsReader$Job.init(CommonRdbmsReader.java:55) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.reader.mysqlreader.MysqlReader$Job.init(MysqlReader.java:37) ~[mysqlreader-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.initJobReader(JobContainer.java:673) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.init(JobContainer.java:303) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:113) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.start(Engine.java:92) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.main(Engine.java:204) [datax-core-0.0.1-SNAPSHOT.jar:na]
+2019-10-18 16:33:42.612 [job-0] INFO  StandAloneJobContainerCommunicator - Total 0 records, 0 bytes | Speed 0B/s, 0 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2019-10-18 16:33:42.612 [job-0] ERROR Engine - 
+
+经DataX智能分析,该任务最可能的错误原因是:
+com.alibaba.datax.common.exception.DataXException: Code:[DBUtilErrorCode-08], Description:[您配置凌乱了. 不能同时既配置table又配置querySql].  - 您的配置凌乱了. 因为datax不能同时既配置table又配置querySql.请检查您的配置并作出修改.
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26)
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.recognizeTableOrQuerySqlMode(OriginalConfPretreatmentUtil.java:257)
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.simplifyConf(OriginalConfPretreatmentUtil.java:56)
+	at com.alibaba.datax.plugin.rdbms.reader.util.OriginalConfPretreatmentUtil.doPretreatment(OriginalConfPretreatmentUtil.java:33)
+	at com.alibaba.datax.plugin.rdbms.reader.CommonRdbmsReader$Job.init(CommonRdbmsReader.java:55)
+	at com.alibaba.datax.plugin.reader.mysqlreader.MysqlReader$Job.init(MysqlReader.java:37)
+	at com.alibaba.datax.core.job.JobContainer.initJobReader(JobContainer.java:673)
+	at com.alibaba.datax.core.job.JobContainer.init(JobContainer.java:303)
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:113)
+	at com.alibaba.datax.core.Engine.start(Engine.java:92)
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171)
+	at com.alibaba.datax.core.Engine.main(Engine.java:204)
+

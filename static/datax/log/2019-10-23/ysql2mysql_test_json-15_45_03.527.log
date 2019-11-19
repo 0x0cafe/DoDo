@@ -1,0 +1,123 @@
+2019-10-23 15:45:03.683 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2019-10-23 15:45:03.683 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.221-b11
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	6
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2019-10-23 15:45:03.699 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"mysqlreader",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"connection":[
+						{
+							"jdbcUrl":[
+								"jdbc:mysql://localhost:3306/demo?serverTimezone=UTC"
+							],
+							"table":[
+								"user"
+							]
+						}
+					],
+					"password":"****",
+					"username":"root",
+					"where":""
+				}
+			},
+			"writer":{
+				"name":"mysqlwriter",
+				"parameter":{
+					"column":[
+						"*"
+					],
+					"connection":[
+						{
+							"jdbcUrl":"jdbc:mysql://localhost:3306/demo?serverTimezone=UTC",
+							"table":[
+								"user_test"
+							]
+						}
+					],
+					"password":"****",
+					"postSql":[],
+					"preSql":[
+						"CREATE TABLE `demo`.`user_test` (`id` INT NOT NULL AUTO_INCREMENT,`username` VARCHAR(45) NULL,`password` VARCHAR(45) NULL, PRIMARY KEY (`id`));"
+					],
+					"session":[],
+					"username":"root",
+					"writeMode":"insert"
+				}
+			}
+		}
+	],
+	"setting":{
+		"speed":{
+			"channel":"3"
+		}
+	}
+}
+
+2019-10-23 15:45:03.715 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2019-10-23 15:45:03.715 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2019-10-23 15:45:03.715 [main] INFO  JobContainer - DataX jobContainer starts job.
+2019-10-23 15:45:03.715 [main] INFO  JobContainer - Set jobId = 0
+2019-10-23 15:45:09.272 [job-0] INFO  OriginalConfPretreatmentUtil - Available jdbcUrl:jdbc:mysql://localhost:3306/demo?serverTimezone=UTC&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true.
+2019-10-23 15:45:09.272 [job-0] WARN  OriginalConfPretreatmentUtil - 您的配置文件中的列配置存在一定的风险. 因为您未配置读取数据库表的列，当您的表字段个数、类型有变动时，可能影响任务正确性甚至会运行出错。请检查您的配置并作出修改.
+2019-10-23 15:45:09.397 [job-0] ERROR JobContainer - Exception when job run
+com.alibaba.datax.common.exception.DataXException: Code:[MYSQLErrCode-04], Description:[表不存在，请检查表名或者联系DBA确认该表是否存在].  - 表名为：user_test 执行的SQL为:select * from user_test where 1=2 具体错误信息为：java.sql.SQLSyntaxErrorException: Table 'demo.user_test' doesn't exist
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.util.RdbmsException.asQueryException(RdbmsException.java:75) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getTableColumnsByConn(DBUtil.java:524) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.dealColumnConf(OriginalConfPretreatmentUtil.java:105) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.dealColumnConf(OriginalConfPretreatmentUtil.java:140) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.doPretreatment(OriginalConfPretreatmentUtil.java:35) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Job.init(CommonRdbmsWriter.java:41) ~[plugin-rdbms-util-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Job.init(MysqlWriter.java:31) ~[mysqlwriter-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.initJobWriter(JobContainer.java:704) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.init(JobContainer.java:304) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:113) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.start(Engine.java:92) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.main(Engine.java:204) [datax-core-0.0.1-SNAPSHOT.jar:na]
+2019-10-23 15:45:09.397 [job-0] INFO  StandAloneJobContainerCommunicator - Total 0 records, 0 bytes | Speed 0B/s, 0 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2019-10-23 15:45:09.397 [job-0] ERROR Engine - 
+
+经DataX智能分析,该任务最可能的错误原因是:
+com.alibaba.datax.common.exception.DataXException: Code:[MYSQLErrCode-04], Description:[表不存在，请检查表名或者联系DBA确认该表是否存在].  - 表名为：user_test 执行的SQL为:select * from user_test where 1=2 具体错误信息为：java.sql.SQLSyntaxErrorException: Table 'demo.user_test' doesn't exist
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:26)
+	at com.alibaba.datax.plugin.rdbms.util.RdbmsException.asQueryException(RdbmsException.java:75)
+	at com.alibaba.datax.plugin.rdbms.util.DBUtil.getTableColumnsByConn(DBUtil.java:524)
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.dealColumnConf(OriginalConfPretreatmentUtil.java:105)
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.dealColumnConf(OriginalConfPretreatmentUtil.java:140)
+	at com.alibaba.datax.plugin.rdbms.writer.util.OriginalConfPretreatmentUtil.doPretreatment(OriginalConfPretreatmentUtil.java:35)
+	at com.alibaba.datax.plugin.rdbms.writer.CommonRdbmsWriter$Job.init(CommonRdbmsWriter.java:41)
+	at com.alibaba.datax.plugin.writer.mysqlwriter.MysqlWriter$Job.init(MysqlWriter.java:31)
+	at com.alibaba.datax.core.job.JobContainer.initJobWriter(JobContainer.java:704)
+	at com.alibaba.datax.core.job.JobContainer.init(JobContainer.java:304)
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:113)
+	at com.alibaba.datax.core.Engine.start(Engine.java:92)
+	at com.alibaba.datax.core.Engine.entry(Engine.java:171)
+	at com.alibaba.datax.core.Engine.main(Engine.java:204)
+
