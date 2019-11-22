@@ -1,3 +1,11 @@
+from sqlalchemy import create_engine
+import pandas as pd
+import pymysql
+from flask import Flask, jsonify, request, redirect
+
+conn = create_engine('mysql+pymysql://dodo:GCTAhTwrPPmJczcp@node1:3306/dodo?charset=utf8')
+
+
 class Alogrithm:
     id = 0
     algorithm_name = ''
@@ -5,11 +13,13 @@ class Alogrithm:
     location = ''
     file_type=''
     description=''
+
     def __init__(self, id, algorithm_name, algorithm_type, file_type):
         self.id = id
         self.algorithm_name = algorithm_name
         self.algorithm_type = algorithm_type
         self.file_type = file_type
+
     def to_json(self):
         return {"id":self.id,
                 "algorithm_name":self.algorithm_name,
@@ -18,28 +28,25 @@ class Alogrithm:
                 "file_type":self.file_type,
                 "description":self.description}
 
-def getAlogrithms():
-    res = []
-    import pymysql
-    db = pymysql.connect("localhost", "testuser", "test123", "TESTDB")
-    cursor = db.cursor()
-    sql = "SELECT * FROM EMPLOYEE \
-           WHERE INCOME > %s" % (1000)
-    try:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        for row in results:
-            fname = row[0]
-            lname = row[1]
-            age = row[2]
-            sex = row[3]
-            income = row[4]
-            print("fname=%s,lname=%s,age=%s,sex=%s,income=%s" % \
-                  (fname, lname, age, sex, income))
-    except:
-        print("Error: unable to fetch data")
 
-    db.close()
-    a = Alogrithm(1, 'xxx')
-    b = Alogrithm(2, 'yyy')
-    return [a,b]
+def getAlogrithms():
+    global conn
+    df = pd.read_sql_query('select * from algorithms', conn)
+    df = df.fillna(0)
+    df = df.apply(pd.to_numeric, errors='ignore')
+    n = df.shape[0]  # 行数
+    data = []
+    page = int(request.GET.get('page'))
+    limit = int(request.GET.get('limit'))
+    start = (page - 1) * limit
+    end = page * limit
+    for i in range(start, min(end, n)):
+        row = dict()
+        row['id'] = df.iloc[i][0]
+        row['algorithm_name'] = df.iloc[i][1]
+        row['algorithm_type'] = df.iloc[i][2]
+        row['location'] = df.iloc[i][3]
+        row['file_type'] = df.iloc[i][4]
+        row['description'] = df.iloc[i][5]
+        data.append(row)
+    return jsonify(data)

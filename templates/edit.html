@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传算法</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layui/css/admin.css" media="all">
+
+    <link rel="shortcut icon" href="/static/layui/images/favicon.ico"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="layui-fluid">
+
+    <form class="layui-form layui-form-pane" action="//" method="post" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">算法名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="algorithm_name" lay-verify="required"
+                       autocomplete="on" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">算法类型</label>
+            <div class="layui-input-block">
+                <select name="algorithm_type" lay-verify="required">
+                    <option value=""></option>
+                    <option value="regression">回归</option>
+                    <option value="clustering">聚类</option>
+                    <option value="classification">分类</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                            <textarea name="description" class="layui-textarea"
+                            ></textarea>
+            </div>
+        </div>
+
+    </form>
+
+    <button type="button" class="layui-btn " id="upload1">
+        选择算法文件
+    </button>
+
+</div>
+
+
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+
+<script>
+    //从父页面传递参数
+    function child(d) {
+        //console.log(d);
+        var id = d.id;  //全局？？
+        layui.use('form', function () {
+            var form = layui.form;
+            form.val('example', {
+                "algorithm_name": d.algorithm_name // "name": "value"
+                , "algorithm_type": d.algorithm_type
+                , "description": d.description
+            });
+            form.render();
+        });
+    }
+</script>
+
+<script>
+    layui.use(['upload', 'layer'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload
+            , layer = layui.layer;
+        //上传文件
+        var location = null, file_type = null;
+        upload.render({
+            elem: '#upload1' //绑定元素
+            , url: '/upload' //上传接口
+            , accept: 'file'
+            , multiple: true
+            , done: function (res) {
+                location = res.location;
+                file_type = res.file_type;
+                console.log(location);
+                console.log(file_type);
+                layer.msg(res.filename + '上传成功');
+            }
+        });
+    })
+</script>
+</div>
+
+
+</body>
+</html>

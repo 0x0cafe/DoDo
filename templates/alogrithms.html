@@ -15,26 +15,20 @@
     <div class="layui-row">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">算法分类</div>
+                <div class="layui-card-header">算法数据表</div>
                 <div class="layui-card-body">
-                    <div class="layui-tab">
-                        <ul class="layui-tab-title">
-                            <li class="layui-this">分类</li>
-                            <li>回归</li>
-                            <li>聚类</li>
-                        </ul>
-                        <div class="layui-tab-content">
-                            <div class="layui-tab-item layui-show">
-                                <table class="layui-hide" id="test"></table>
-                            </div>
-                            <div class="layui-tab-item">
-                                <table class="layui-hide" id="test1"></table>
-                            </div>
-                            <div class="layui-tab-item">内容3</div>
-                            <div class="layui-tab-item">内容4</div>
-                            <div class="layui-tab-item">内容5</div>
-                        </div>
-                    </div>
+                    <table class="layui-hide" id="test" lay-filter="test"></table>
+
+                    <script type="text/html" id="barDemo">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">
+                             <i class="layui-icon layui-icon-edit"></i> 编辑</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+                             <i class="layui-icon layui-icon-delete"></i> 删除</a>
+                    </script>
+                    <br>
+                    <button type="button" class="layui-btn " id="upload1">
+                        <i class="layui-icon layui-icon-add-1"></i>  添加算法
+                    </button>
                 </div>
             </div>
 
@@ -47,78 +41,67 @@
 
     <script src="/static/layui/layui.js" charset="utf-8"></script>
     <script>
-        layui.use('element', function () {
-            var $ = layui.jquery
-                , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-
-            //触发事件
-            var active = {
-                tabAdd: function () {
-                    //新增一个Tab项
-                    element.tabAdd('demo', {
-                        title: '新选项' + (Math.random() * 1000 | 0) //用于演示
-                        , content: '内容' + (Math.random() * 1000 | 0)
-                        , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-                    })
-                }
-                , tabDelete: function (othis) {
-                    //删除指定Tab项
-                    element.tabDelete('demo', '44'); //删除：“商品管理”
-
-
-                    othis.addClass('layui-btn-disabled');
-                }
-                , tabChange: function () {
-                    //切换到指定Tab项
-                    element.tabChange('demo', '22'); //切换到：用户管理
-                }
-            };
-
-            $('.site-demo-active').on('click', function () {
-                var othis = $(this), type = othis.data('type');
-                active[type] ? active[type].call(this, othis) : '';
-            });
-
-            //Hash地址的定位
-            var layid = location.hash.replace(/^#test=/, '');
-            element.tabChange('test', layid);
-
-            element.on('tab(test)', function (elem) {
-                location.hash = 'test=' + $(this).attr('lay-id');
-            });
-
-        });
-    </script>
-
-    <script>
         layui.use('table', function () {
             var table = layui.table;
 
             table.render({
                 elem: '#test'
-                , url: '/static/data/data.json'
-                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , url: '/getAlogrithms'
                 , cols: [[
-                    {field: 'id', width: 80, title: 'ID', sort: true}
-                    , {field: 'algorithm_name', width: 80, title: '算法名'}
-                    , {field: 'description', width: 80, title: '描述'}
+                     {field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true, width:60}
+                    , {field: 'algorithm_name', title: '算法名称', width:400}
+                    , {field: 'algorithm_type', title: '算法类型'}
+                    , {field: 'location', title: '位置'}
+                    , {field: 'file_type', title: '文件类型'}
+                    , {field: 'description', title: '描述'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:160}
                 ]]
+                , page: true
             });
 
-
-            table.render({
-                elem: '#test1'
-                , url: '/static/data/data.json'
-                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                , cols: [[
-                    {field: 'id', width: '30%' , title: 'ID', sort: true}
-                    , {field: 'algorithm_name', width: '30%' , title: '算法名'}
-                    , {field: 'description', width: '40%' , title: '描述'}
-                ]]
+            //监听行工具事件
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    layer.open({
+                        type: 2,
+                        title: '上传算法',
+                        shadeClose: true,
+                        shade: 0,
+                        area: ['500px', '400px'],
+                        content: 'edit', //iframe的url
+                        success: function (layero, index) {
+                            // 获取子页面的iframe
+                            var iframe = window['layui-layer-iframe' + index];
+                            // 向子页面的全局函数child传参
+                            iframe.child(data);
+                        }
+                    });
+                }
             });
         });
     </script>
 
+
+    <script>
+        $('#upload1').on('click', function () {
+            layer.open({
+                type: 2,
+                title: '上传算法',
+                shadeClose: true,
+                shade: 0,
+                area: ['500px', '400px'],
+                content: 'edit' //url到edit.html
+            });
+
+        })
+    </script>
 </div>
 
 
