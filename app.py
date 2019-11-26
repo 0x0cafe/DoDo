@@ -4,16 +4,19 @@ import socketio
 from flask import Flask, jsonify, request, redirect
 from flask import render_template, flash
 from sqlalchemy import create_engine
+import pymysql
 import pandas as pd
 from flask_socketio import SocketIO, emit
 import model
 
 UPLOAD_FOLDER = '/upload'  # 文件存放路径
 conn = create_engine('mysql+pymysql://dodo:GCTAhTwrPPmJczcp@node1:3306/dodo?charset=utf8')
+db = pymysql.connect("node1", "dodo", "GCTAhTwrPPmJczcp", "dodo")
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['CONN'] = conn
+app.config['DB'] = db
 
 # socketio = SocketIO()
 # socketio.init_app(app)
@@ -66,7 +69,7 @@ def getAlogrithms():
             df[i] = df[i].astype('float')
     n = df.shape[0]  # 行数
     data = []
-    page = int(request.args.get('page'))
+    page = int(request.args.get('page'))   #此处与Django框架中获取url参数的方式不同
     limit = int(request.args.get('limit'))
     start = (page - 1) * limit
     end = page * limit
@@ -97,6 +100,60 @@ def upload():
         location = os.getcwd() + app.config['UPLOAD_FOLDER'] + '\\' + file.filename
         file.save(location)  # 需要添加当前路径名在前
     return jsonify({'filename': file.filename, 'location': location, 'file_type': file_type})
+
+
+@app.route('/insert/<path:location>/<file_type>', methods=['POST'])
+def insert(location, file_type):
+    if location == 'null' and file_type == 'null':
+        location = ''
+        file_type = ''
+    alg_dict = {'algorithm_name': request.form.get("algorithm_name"),
+                'algorithm_type': request.form.get('algorithm_type'),
+                'location': location,
+                'file_type': file_type,
+                'description': request.form.get('description')}
+    print(alg_dict)
+    df = pd.DataFrame([alg_dict])
+    df.to_sql('algorithms', app.config['CONN'], index=False, if_exists='append')
+    return jsonify({'code': 0})
+
+
+@app.route('/update/<id>/<path:location>/<file_type>', methods=['POST'])
+def update(id, location, file_type):
+    global db
+    cursor = db.cursor()
+    if location == 'null' and file_type == 'null':
+        sql = 'update algorithms set algorithm_name = \'%s\', algorithm_type = \'%s\', description = \'%s\' where id = %d'\
+          % (request.form.get("algorithm_name"), request.form.get('algorithm_type'), request.form.get('description'), int(id))
+    else:
+        sql = 'update algorithms set algorithm_name = \'%s\', algorithm_type = \'%s\', location = \'%s\', file_type = \'%s\', description = \'%s\' where id = %d' \
+              % (request.form.get("algorithm_name"), request.form.get('algorithm_type'), location, file_type,
+                 request.form.get('description'), int(id))
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
+    return jsonify({'code': 0})
+
+
+@app.route('/delete/<id>')
+def delete(id):
+    global db
+    cursor = db.cursor()
+    query = 'select * from algorithms where id = %d' % (int(id))
+    cursor.execute(query)
+    result = cursor.fetchone()
+    path = result[3]
+    if os.path.isfile(path):
+        os.remove(path)
+        filename = os.path.basename(path)
+    else:
+        filename = ''
+    sql = 'delete from algorithms where id = %d' % (int(id))
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
+    return jsonify({'filename': filename})
+
 
 '''
 @app.route('/webs')
