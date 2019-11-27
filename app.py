@@ -95,7 +95,7 @@ def upload():
         flash('No selected file')
         return redirect(request.url)
     if file:
-        TYPE = {'.py': 'python', '.java': 'java'}
+        TYPE = {'.py': 'python', '.jar': 'java'}
         file_type = TYPE[os.path.splitext(file.filename)[1]]
         location = os.getcwd() + app.config['UPLOAD_FOLDER'] + '\\' + file.filename
         file.save(location)  # 需要添加当前路径名在前

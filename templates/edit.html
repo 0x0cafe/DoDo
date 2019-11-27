@@ -44,7 +44,9 @@
             选择算法文件
         </button>
         <button type="submit" class="layui-btn" lay-submit lay-filter="submit">立即提交</button>
+
     </form>
+    <div class="layui-form-mid layui-word-aux">只允许上传以.py或者.jar为后缀的文件</div>
 
 
 </div>
@@ -81,6 +83,7 @@
             elem: '#upload1' //绑定元素
             , url: '/upload' //上传接口
             , accept: 'file'
+            , exts: 'py|jar'
             , multiple: true
             , done: function (res) {
                 location = res.location;
